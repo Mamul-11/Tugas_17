@@ -40,8 +40,24 @@ class TestLogin(unittest.TestCase):
         time.sleep(1)
 
         # validasi
-        response_data = driver.find_element(By.TAG_NAME, "h3")
-        self.assertIn('Epic sadface: Username and password do not match any user in this service', response_data)
+        response_message = driver.find_element(By.TAG_NAME, "h3").text
+        self.assertIn('Epic sadface: Username and password do not match any user in this service', response_message)
+
+    def test_a_failed_login_with_empty_email_and_password(self):
+        # steps
+        driver = self.browser  # buka web browser
+        driver.get("https://www.saucedemo.com/")  # buka situs
+        time.sleep(3)
+        driver.find_element(By.ID, "user-name").send_keys("")  # isi email
+        time.sleep(1)
+        driver.find_element(By.ID, "password").send_keys("")  # isi password
+        time.sleep(1)
+        driver.find_element(By.ID, "login-button").click()
+        time.sleep(1)
+
+        # validasi
+        response_message = driver.find_element(By.TAG_NAME, "h3").text
+        self.assertIn('Epic sadface: Username is required', response_message)
 
     
 
